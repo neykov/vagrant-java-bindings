@@ -31,6 +31,12 @@ public class VagrantCli {
     }
     
     public String execute() {
+        synchronized (getClass()) {
+            return executeSerialized();
+        }
+    }
+
+    public String executeSerialized() {
         ProcessBuilder pb = new ProcessBuilder(args);
         pb.directory(path);
         pb.redirectErrorStream();
