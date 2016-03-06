@@ -7,8 +7,11 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class VagrantCli {
+    private static final Logger LOG = Logger.getLogger(VagrantCli.class.getName());
+
     private File path;
     private List<String> args;
 
@@ -37,6 +40,8 @@ public class VagrantCli {
     }
 
     public String executeSerialized() {
+        long start = System.currentTimeMillis();
+        LOG.info(start + " - VagrantCli: execute " + args);
         ProcessBuilder pb = new ProcessBuilder(args);
         pb.directory(path);
         pb.redirectErrorStream();
@@ -47,6 +52,8 @@ public class VagrantCli {
             if (p.waitFor() != 0) {
                 throw new IllegalStateException("Invaid return code " + p.exitValue() + ".\n" + out);
             }
+            long end = System.currentTimeMillis();
+            LOG.info(end + " (" + (end-start) + ") - \n" + out);
             return out;
         } catch (IOException e) {
             throw new RuntimeException(e);

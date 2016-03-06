@@ -26,11 +26,23 @@ public class SshConfigParser implements CliParser<Map<String, SshConfig>> {
                 } else if (s.startsWith("Port")) {
                     config.setPort(Integer.parseInt(s.substring("Port".length() + 1)));
                 } else if (s.startsWith("IdentityFile")) {
-                    config.setIdentityFile(s.substring("IdentityFile".length() + 1));
+                    config.setIdentityFile(stripQuotes(s.substring("IdentityFile".length() + 1)));
                 }
             }
         }
         return ret;
     }
+
+   private String stripQuotes(String str) {
+      int startIndex = 0;
+      int endIndex = str.length();
+      if (str.startsWith("\"")) {
+         startIndex = 1;
+      }
+      if (str.endsWith("\"")) {
+         endIndex--;
+      }
+      return str.substring(startIndex, endIndex);
+   }
 
 }

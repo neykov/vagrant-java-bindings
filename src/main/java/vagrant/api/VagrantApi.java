@@ -16,6 +16,8 @@ public interface VagrantApi {
     void destroy(String name);
     Collection<Machine> status();
     Machine status(String name);
+    void halt(String name);
+    void haltForced(String name);
     void reload(String name);
     void resume(String name);
     void suspend(String name);

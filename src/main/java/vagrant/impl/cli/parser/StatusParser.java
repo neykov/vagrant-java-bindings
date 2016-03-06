@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import vagrant.api.domain.Machine;
-import vagrant.api.domain.MachineState;
 
 public class StatusParser implements CliParser<Machine> {
     private File path;
@@ -21,7 +20,7 @@ public class StatusParser implements CliParser<Machine> {
         Machine machine = new Machine();
         machine.setId(path.getName() + "/" + name);
         machine.setName(name);
-        machine.setStatus("running".equals(m.get("state")) ? MachineState.RUNNING : null);
+        machine.setStatus(new MachineStateParser().parse(m.get("state")));
         machine.setPath(path);
         return machine;
     }

@@ -82,6 +82,25 @@ public class VagrantImpl implements VagrantApi {
     }
 
     @Override
+    public void halt(String name) {
+       vagrant()
+            .arg("halt")
+            .arg(name)
+            .machineReadable()
+            .execute();
+    }
+
+    @Override
+    public void haltForced(String name) {
+       vagrant()
+            .arg("halt")
+            .arg(name)
+            .arg("--force")
+            .machineReadable()
+            .execute();
+    }
+
+    @Override
     public void reload(String name) {
         vagrant()
             .arg("reload")
