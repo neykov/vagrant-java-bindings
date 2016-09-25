@@ -5,6 +5,27 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Vagrant Java bindings</name>
   <description>Wrapper over the CLI Vagrant tool presented in a Java API</description>
+  <url>https://github.com/neykov/vagrant-java-bindings</url>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Svetoslav Neykov</name>
+      <email>svetoslav@neykov.name</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/neykov/vagrant-java-bindings.git</connection>
+    <developerConnection>scm:git:ssh://github.com:neykov/vagrant-java-bindings.git</developerConnection>
+    <url>http://github.com/neykov/vagrant-java-bindings/tree/master</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
