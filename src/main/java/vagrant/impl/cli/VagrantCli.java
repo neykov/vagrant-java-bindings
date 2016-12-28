@@ -9,39 +9,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import vagrant.api.CommandIOListener;
+
 public class VagrantCli {
     private static final Logger LOG = Logger.getLogger(VagrantCli.class.getName());
 
-    private File path;
-    private List<String> args;
+    private final File path;
+    private final List<String> args;
+    private final CommandIOListener ioListener;
 
-    public VagrantCli(File path) {
+    public VagrantCli(File path, CommandIOListener ioListener) {
         if (!path.exists()) {
             throw new IllegalStateException("Vagrant machine path " + path + " doesn't exist.");
         }
         this.path = path;
-        args = new ArrayList<String>();
-        args.add("vagrant");
+        this.ioListener = ioListener;
+        this.args = new ArrayList<String>();
+        this.args.add("vagrant");
     }
-    
+
     public VagrantCli arg(String arg) {
         args.add(arg);
         return this;
     }
-    
+
     public VagrantCli machineReadable() {
         return arg("--machine-readable");
     }
-    
+
     public String execute() {
         synchronized (getClass()) {
-            return executeSerialized();
+            return executeSequential();
         }
     }
 
-    public String executeSerialized() {
+    public String executeSequential() {
         long start = System.currentTimeMillis();
-        LOG.info(start + " - VagrantCli: execute " + args);
+        String logArgs = args.toString();
+        LOG.fine(start + " - VagrantCli: execute " + logArgs);
+        ioListener.onInput(logArgs);
+        ioListener.onInput(null);
         ProcessBuilder pb = new ProcessBuilder(args);
         pb.directory(path);
         pb.redirectErrorStream();
@@ -53,22 +60,29 @@ public class VagrantCli {
                 throw new IllegalStateException("Invaid return code " + p.exitValue() + ".\n" + out);
             }
             long end = System.currentTimeMillis();
-            LOG.info(end + " (" + (end-start) + ") - \n" + out);
+            LOG.fine(end + " (" + (end-start) + ") - \n" + out);
             return out;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed while executing " + logArgs, e);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted while executing " + logArgs, e);
         }
     }
 
-    public static String readFully(InputStream in) throws IOException {
+    public String readFully(InputStream in) throws IOException {
         Reader r = new InputStreamReader(in);
         StringBuilder str = new StringBuilder();
         char[] buff = new char[4096];
         int read;
-        while ((read = r.read(buff, 0, buff.length)) != -1) {
-            str.append(buff, 0, read);
+        try {
+            while ((read = r.read(buff, 0, buff.length)) != -1) {
+                String output = new String(buff, 0, read);
+                str.append(output);
+                ioListener.onOutput(output);
+            }
+        } finally {
+            ioListener.onOutput(null);
         }
         r.close();
         return str.toString();

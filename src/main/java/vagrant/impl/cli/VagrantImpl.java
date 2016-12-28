@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collection;
 
 import vagrant.api.BoxApi;
+import vagrant.api.CommandIOListener;
 import vagrant.api.VagrantApi;
 import vagrant.api.domain.Machine;
 import vagrant.api.domain.SshConfig;
@@ -14,14 +15,20 @@ import vagrant.impl.cli.parser.VersionParser;
 
 public class VagrantImpl implements VagrantApi {
     private File path;
+    private CommandIOListener ioListener;
 
     public VagrantImpl(File path) {
-        this.path = path;
+       this(path, null);
+    }
+
+    public VagrantImpl(File path, CommandIOListener ioListener) {
+       this.path = path;
+       this.ioListener = ioListener;
     }
 
     @Override
     public BoxApi box() {
-        return new BoxImpl(path);
+        return new BoxImpl(path, ioListener);
     }
 
     @Override
@@ -158,6 +165,6 @@ public class VagrantImpl implements VagrantApi {
     }
 
     private VagrantCli vagrant() {
-        return new VagrantCli(path);
+        return new VagrantCli(path, ioListener);
     }
 }

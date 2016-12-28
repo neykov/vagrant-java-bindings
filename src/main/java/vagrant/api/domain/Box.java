@@ -23,4 +23,9 @@ public class Box {
         return provider;
     }
 
+    @Override
+    public String toString() {
+        return "Box[name=" + name + ", version=" + version + ", provider=" + provider + "]";
+    }
+
 }

@@ -38,4 +38,10 @@ public class SshConfig {
         this.identityFile = identityFile;
     }
 
+    @Override
+    public String toString() {
+        return "SshConfig[hostName=" + hostName + ", user=" + user + ", port=" + port + ", identityFile="
+                + identityFile + "]";
+    }
+
 }

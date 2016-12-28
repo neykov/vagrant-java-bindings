@@ -5,7 +5,7 @@ import java.io.File;
 public class Machine {
     private String id;
     private String name;
-    private MachineState status;
+    private MachineState state;
     private File path;
 
     public File getPath() {
@@ -23,11 +23,11 @@ public class Machine {
     public void setName(String name) {
         this.name = name;
     }
-    public MachineState getStatus() {
-        return status;
+    public MachineState getState() {
+        return state;
     }
     public void setStatus(MachineState status) {
-        this.status = status;
+        this.state = status;
     }
     public void setPath(File path) {
         this.path = path;
@@ -36,4 +36,8 @@ public class Machine {
         return path.exists() && new File(path, "Vagrantfile").exists();
     }
 
+    @Override
+    public String toString() {
+        return "Machine[id=" + id + ", name=" + name + ", status=" + state + ", path=" + path + "]";
+    }
 }
