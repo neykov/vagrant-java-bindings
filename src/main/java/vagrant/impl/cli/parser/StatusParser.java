@@ -18,7 +18,6 @@ public class StatusParser implements CliParser<Machine> {
         Map<String, String> m = parsed.iterator().next();
         String name = m.get("machine");
         Machine machine = new Machine();
-        machine.setId(path.getName() + "/" + name);
         machine.setName(name);
         machine.setStatus(new MachineStateParser().parse(m.get("state")));
         machine.setPath(path);

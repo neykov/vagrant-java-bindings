@@ -24,7 +24,6 @@ public class AllStatusParser implements CliParser<Collection<Machine>> {
             String state = m.get("state");
             if (name == null || state == null) continue; // skip metadata, ui
             Machine machine = new Machine();
-            machine.setId(path.getName() + "/" + name);
             machine.setName(name);
             machine.setStatus(stateParser.parse(state));
             machine.setPath(path);
