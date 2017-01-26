@@ -3,6 +3,7 @@
   <groupId>name.neykov</groupId>
   <artifactId>vagrant-java-bindings</artifactId>
   <version>0.2.0-SNAPSHOT</version>
+  <packaging>bundle</packaging>
   <name>Vagrant Java bindings</name>
   <description>Wrapper over the CLI Vagrant tool presented in a Java API</description>
   <url>https://github.com/neykov/vagrant-java-bindings</url>
@@ -41,6 +42,12 @@
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <version>3.2.0</version>
       </plugin>
     </plugins>
   </build>
