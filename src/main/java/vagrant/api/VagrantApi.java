@@ -13,6 +13,7 @@ public interface VagrantApi {
     void init(String string);
     BoxApi box();
     void up(String name);
+    void up(String name, String provider);
     void destroy(String name);
     Collection<Machine> status();
     Machine status(String name);

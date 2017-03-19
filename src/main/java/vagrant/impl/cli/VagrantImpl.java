@@ -60,6 +60,18 @@ public class VagrantImpl implements VagrantApi {
     }
     
     @Override
+    public void up(String name, String provider) {
+        VagrantCli cli = vagrant().arg("up");
+        if (provider != null) {
+            cli.arg("--provider");
+            cli.arg(provider);
+        }
+        cli.arg(name)
+            .machineReadable()
+            .execute();
+    }
+
+    @Override
     public void destroy(String name) {
         vagrant()
             .arg("destroy")
