@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>name.neykov</groupId>
   <artifactId>vagrant-java-bindings</artifactId>
-  <version>0.2.0-SNAPSHOT</version>
+  <version>0.2.0</version>
   <packaging>bundle</packaging>
   <name>Vagrant Java bindings</name>
   <description>Wrapper API over the CLI Vagrant tool</description>
